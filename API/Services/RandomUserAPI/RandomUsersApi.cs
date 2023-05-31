@@ -44,10 +44,8 @@ public class RandomUsersApi : IRandomUsersApi
 
             return result?.Results.ToList() ?? new List<RandomUserDto>();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            // TODO: log error
-            
             throw new RandomUsersApiException($"Error during deserialization of the result.");
         }
     }

@@ -10,12 +10,15 @@ namespace API.Controllers;
 public class UsersController : ControllerBase
 {
     private readonly IUsersRepository _repo;
+    private readonly ILogger<UsersController> _logger;
 
     public UsersController(
-        IUsersRepository repo
+        IUsersRepository repo,
+        ILogger<UsersController> logger
     )
     {
         _repo = repo;
+        _logger = logger;
     }
 
     [HttpGet(Name = "Get")]
@@ -29,8 +32,8 @@ public class UsersController : ControllerBase
         }
         catch (Exception ex)
         {
-            // todo: log error
-
+            _logger.LogError(ex.Message);
+            
             return new JsonResult(new Result(message: ex.Message, statusCode: HttpStatusCode.InternalServerError));
         }
     }
