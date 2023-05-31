@@ -1,19 +1,19 @@
 using System.Net;
-using API.Services.RandomUserAPI.Abstractions;
-using API.Services.RandomUserAPI.Models;
+using API.Exceptions;
+using API.Services.RandomUserApi.Abstractions;
+using API.Services.RandomUserApi.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
-using Tools.Exceptions;
 
-namespace API.Services.RandomUserAPI;
+namespace API.Services.RandomUserApi;
 
-public class RandomUsersAPI : IRandomUsersAPI
+public class RandomUsersApi : IRandomUsersApi
 {
     private readonly IRestClient _client;
     private readonly RandomUsersAPIConfig? _config;
 
-    public RandomUsersAPI(
+    public RandomUsersApi(
         IOptions<RandomUsersAPIConfig>? options
     )
     {
@@ -25,7 +25,7 @@ public class RandomUsersAPI : IRandomUsersAPI
         }
     }
 
-    public async Task<IEnumerable<RandomUserAPIModel>> Get(int amount)
+    public async Task<IEnumerable<RandomUserDto>> Get(int amount)
     {
         var request = new RestRequest()
             .AddParameter("results", amount, ParameterType.QueryString);
@@ -33,23 +33,22 @@ public class RandomUsersAPI : IRandomUsersAPI
         var response = await _client.ExecuteAsync(request);
 
         if (response.StatusCode != HttpStatusCode.OK)
-            throw new RandomUsersAPIException(response.ErrorMessage ??
-                                              "There was a problem with connecting to the RandomUser API endpoint");
+            throw new RandomUsersApiException(response.ErrorMessage ?? "There was a problem with connecting to the RandomUser API endpoint");
 
         if (string.IsNullOrWhiteSpace(response.Content))
-            return new List<RandomUserAPIModel>();
+            return new List<RandomUserDto>();
 
         try
         {
-            var result = JsonConvert.DeserializeObject<RandomUserAPIResultModel>(response.Content);
+            var result = JsonConvert.DeserializeObject<RandomUserResultDto>(response.Content);
 
-            return result?.Results.ToList() ?? new List<RandomUserAPIModel>();
+            return result?.Results.ToList() ?? new List<RandomUserDto>();
         }
         catch (Exception ex)
         {
             // TODO: log error
+            
+            throw new RandomUsersApiException($"Error during deserialization of the result.");
         }
-
-        return new List<RandomUserAPIModel>();
     }
 }

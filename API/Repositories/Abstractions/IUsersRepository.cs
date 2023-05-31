@@ -1,8 +1,8 @@
-using API.DTOs;
+using API.Repositories.Dtos;
 
 namespace API.Repositories.Abstractions;
 
 public interface IUsersRepository
 {
-    Task<UserDTO> GetByAmount(int amount);
+    Task<IEnumerable<UserDto>> GetByAmount(int amount);
 }

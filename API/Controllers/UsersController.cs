@@ -1,3 +1,5 @@
+using System.Net;
+using API.Controllers.Models;
 using API.Repositories.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,12 +25,13 @@ public class UsersController : ControllerBase
         {
             var result = await _repo.GetByAmount(amount);
 
-            return new JsonResult(result);
+            return new JsonResult(new Result(result));
         }
         catch (Exception ex)
         {
+            // todo: log error
 
-            return StatusCode(500); // Internal Server Error
+            return new JsonResult(new Result(message: ex.Message, statusCode: HttpStatusCode.InternalServerError));
         }
     }
 }

@@ -1,4 +1,4 @@
-namespace API.Services.RandomUserAPI;
+namespace API.Services.RandomUserApi;
 
 public class RandomUsersAPIConfig
 {

@@ -1,6 +1,6 @@
-namespace API.DTOs;
+namespace API.Repositories.Dtos;
 
-public class UserDTO
+public class UserDto
 {
     public string Name { get; set; }
     public string Surname { get; set; }

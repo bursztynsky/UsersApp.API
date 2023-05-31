@@ -1,5 +1,5 @@
-using API.Services.RandomUserAPI;
-using API.Services.RandomUserAPI.Abstractions;
+using API.Services.RandomUserApi;
+using API.Services.RandomUserApi.Abstractions;
 
 namespace API.Services;
 
@@ -7,7 +7,7 @@ public static class StartupExtension
 {
     public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<RandomUsersAPIConfig>(configuration.GetSection(nameof(RandomUsersAPI)));
-        services.AddTransient<IRandomUsersAPI, RandomUsersAPI>();
+        services.Configure<RandomUsersAPIConfig>(configuration.GetSection(nameof(RandomUsersApi)));
+        services.AddTransient<IRandomUsersApi, RandomUsersApi>();
     }
 }
