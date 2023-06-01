@@ -1,6 +1,6 @@
 namespace API.Services.RandomUserApi;
 
-public class RandomUsersAPIConfig
+public class RandomUsersApiConfig
 {
     public string? Url { get; set; }
 }

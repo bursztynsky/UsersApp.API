@@ -1,7 +1,7 @@
 using System.Net;
 using API.Exceptions;
 using API.Services.RandomUserApi.Abstractions;
-using API.Services.RandomUserApi.Models;
+using API.Services.RandomUserApi.Dtos;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RestSharp;
@@ -10,23 +10,25 @@ namespace API.Services.RandomUserApi;
 
 public class RandomUsersApi : IRandomUsersApi
 {
-    private readonly IRestClient _client;
-    private readonly RandomUsersAPIConfig? _config;
+    private readonly IRestClient? _client;
 
     public RandomUsersApi(
-        IOptions<RandomUsersAPIConfig>? options
+        IOptions<RandomUsersApiConfig>? options
     )
     {
-        _config = options?.Value;
+        var config = options?.Value;
 
-        if (!string.IsNullOrWhiteSpace(_config?.Url))
+        if (!string.IsNullOrWhiteSpace(config?.Url))
         {
-            _client = new RestClient(_config.Url);
+            _client = new RestClient(config.Url);
         }
     }
 
     public async Task<IEnumerable<RandomUserDto>> Get(int amount)
     {
+        if (_client == null)
+            throw new RandomUsersApiException("The HTTP Client has not been created because of the configuration problems.");
+
         var request = new RestRequest()
             .AddParameter("results", amount, ParameterType.QueryString);
 
@@ -46,7 +48,7 @@ public class RandomUsersApi : IRandomUsersApi
         }
         catch (Exception)
         {
-            throw new RandomUsersApiException($"Error during deserialization of the result.");
+            throw new RandomUsersApiException("Error during deserialization of the result.");
         }
     }
 }

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace API.Services.RandomUserApi.Models;
+namespace API.Services.RandomUserApi.Dtos;
 
 public class RandomUserResultDto
 {

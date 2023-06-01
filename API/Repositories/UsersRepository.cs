@@ -1,7 +1,7 @@
 using API.Repositories.Abstractions;
 using API.Repositories.Dtos;
 using API.Services.RandomUserApi.Abstractions;
-using API.Services.RandomUserApi.Models;
+using API.Services.RandomUserApi.Dtos;
 
 namespace API.Repositories;
 

@@ -7,7 +7,7 @@ public static class StartupExtension
 {
     public static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<RandomUsersAPIConfig>(configuration.GetSection(nameof(RandomUsersApi)));
+        services.Configure<RandomUsersApiConfig>(configuration.GetSection(nameof(RandomUsersApi)));
         services.AddTransient<IRandomUsersApi, RandomUsersApi>();
     }
 }

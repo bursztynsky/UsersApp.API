@@ -1,4 +1,4 @@
-using API.Services.RandomUserApi.Models;
+using API.Services.RandomUserApi.Dtos;
 
 namespace API.Services.RandomUserApi.Abstractions;
 
